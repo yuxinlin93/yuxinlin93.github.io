@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>
+        <title>110403536 final exam</title>
+        <link rel="stylesheet" href="mystyle.css">
+    </head>
+    <body>
+        <div id="body">       
+            <p>please enter three different numbers(1~10) and click submit</p>
+            <p id="first">first number</p>
+            <input id="first_guess_num" type="text">
+            <br>
+            <p id="second">second number</p>
+            <input id="second_guess_num" type="text">
+            <br>
+            <p id="third">third number</p>
+            <input id="third_guess_num" type="text">
+            <br><br>
+            <input id="btn" type="button" value="submit">
+            <button type="button" onclick="window.location.reload();">reset</button>
+        </div>
+        <div id="show_area">
+            <p class="show"></p>
+        </div>
+
+
+        <script>
+           var summary = document.querySelector('.show');
+
+           document.getElementById('btn').onclick= function(){
+            var result="";
+            //讀入輸入之數字
+            try{
+                var first_guess= parseInt(document.getElementById('first_guess_num').value);
+                var second_guess= parseInt(document.getElementById('second_guess_num').value);
+                var third_guess= parseInt(document.getElementById('third_guess_num').value);
+                if(!(0<first_guess<11||0<second_guess<11||0<third_guess<11)){
+                    throw 0<first_guess<11||0<second_guess<11||0<third_guess<11;
+                }
+            }
+            catch(err){
+                var str=err
+                draw_alert(str);
+            }
+            //console.log(first_guess);
+            //console.log(second_guess);
+            //console.log(third_guess);
+
+            //建立三抽出之變數
+            var first_draw=Math.floor(Math.random()*10)+1;
+            var second_draw;
+            var third_draw;
+
+            //不重複抽籤
+            second_draw = Math.floor(Math.random()*10)+1;
+            third_draw = Math.floor(Math.random()*10)+1;
+            
+            //加入陣列
+            const array_guess=[first_guess, second_guess, third_guess];
+            //console.log(array_guess);
+            const array_draw =[first_draw, second_draw, third_draw];
+
+            //排列
+            array_guess.sort();
+            array_draw.sort();
+            console.log(array_guess);
+            console.log(array_draw);
+
+            //比較
+            var jackpot_time=0;
+            let result1 =array_guess.filter((e) => {
+                return array_draw.indexOf(e) > -1
+            })
+            jackpot_time=result1.length;
+            var jackpot_msg;
+            if(jackpot_time==1){jackpot_msg="三獎 100元";}
+            else if(jackpot_time==2){jackpot_msg="二獎 200元";}
+            else if(jackpot_time==3){jackpot_msg="一獎 300元";}
+            else {jackpot_msg="沒獎";}
+            result=jackpot_msg+"<br>your guess:"+array_guess+"<br>draw:"+array_draw;
+
+            summary.innerHTML=result;
+           }
+
+           function draw_alert(error){
+            alert('try_again'+ error);
+            location.reload();
+           }
+        </script>
+    </body>
+</html>
